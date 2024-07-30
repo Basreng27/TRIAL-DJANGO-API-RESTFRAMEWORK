@@ -1,0 +1,69 @@
+=> Langkah - Langkah
+    => Membuat Virtual Environtment
+        python -m venv venv
+    => Aktifkan Virtual Environtment
+        venv/Scripts/activate 
+    => Install Framework Django Rest Framework Dan SQL Server Driver
+        pip install django djangorestframework pyodbc django-mssql-backend
+        => Atau
+        pip install mssql-django
+    => Install JWT
+        pip install djangorestframework-simplejwt
+    => Membuat Django Framework
+        django-admin startproject projectAPI
+        cd projectAPI
+    => Membuat Aplikasi
+        python manage.py startapp apirestframework
+    => Tambahkan rest_framework dan myapp ke dalam INSTALLED_APPS di projectAPI/settings.py:
+        INSTALLED_APPS = [
+            ...
+            'rest_framework',
+            'myapp',
+        ]
+    => Konfigurasi Koneksi SQL Server
+        Konfigurasi database di projectAPI/settings.py:
+        DATABASES = {
+            'default': {
+                # 'ENGINE': 'sql_server.pyodbc',
+                'ENGINE': 'mssql',
+                'NAME': 'komik',
+                'USER': '',  # Kosongkan karena menggunakan Windows Authentication
+                'PASSWORD': '',  # Kosongkan karena menggunakan Windows Authentication
+                'HOST': r'localhost\MSSQLSERVER01',  # Nama atau IP dari server SQL Server Anda
+                'PORT': '',  # Biasanya kosong untuk default port
+                'OPTIONS': {
+                    'driver': 'ODBC Driver 17 for SQL Server',  # Pastikan driver ini terinstal
+                    'extra_params': 'TrustServerCertificate=yes;'
+                },
+            },
+        }
+    => Konfigurasi Django REST Framework dan JWT
+        Tambahkan konfigurasi REST framework dan SimpleJWT di projectAPI/settings.py:
+        REST_FRAMEWORK = {
+            'DEFAULT_AUTHENTICATION_CLASSES': (
+                'rest_framework_simplejwt.authentication.JWTAuthentication',
+            ),
+        }
+
+        from datetime import timedelta
+
+        SIMPLE_JWT = {
+            'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+            'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+            'ROTATE_REFRESH_TOKENS': False,
+            'BLACKLIST_AFTER_ROTATION': True,
+            'AUTH_HEADER_TYPES': ('Bearer',),
+        }
+    => Buat Serializers dan Views
+        => Buat serializer untuk pengguna di apirestframework/serializers.py
+        => Buat views untuk otentikasi di apirestframework/views.py
+    => Buat URL Patterns
+        => Tambahkan URL patterns di apirestframework/urls.py:
+        => Sertakan apirestframework/urls.py di projectAPI/urls.py:
+    => Migrate
+        python manage.py migrate
+    => Run Server
+        python manage.py runserver
+
+=> Registrasi
+    
