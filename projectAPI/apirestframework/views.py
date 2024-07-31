@@ -9,6 +9,9 @@ from rest_framework.response import Response
 from .serializers import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 
 # Create your views here.
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -27,6 +30,22 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
+class Logout(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Ambil token refresh dari header Authorization
+            token = request.data.get('refresh')
+            if token is None:
+                return Response({'detail': 'Refresh token not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Tambahkan token ke blacklist
+            RefreshToken(token).blacklist()
+
+            return Response({'detail': 'Logged out successfully.'}, status=status.HTTP_205_RESET_CONTENT)
+        except TokenError:
+            return Response({'detail': 'Token is invalid or expired.'}, status=status.HTTP_400_BAD_REQUEST)
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

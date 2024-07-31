@@ -14,11 +14,11 @@
         cd projectAPI
     => Membuat Aplikasi
         python manage.py startapp apirestframework
-    => Tambahkan rest_framework dan myapp ke dalam INSTALLED_APPS di projectAPI/settings.py:
+    => Tambahkan rest_framework dan apirestframework ke dalam INSTALLED_APPS di projectAPI/settings.py:
         INSTALLED_APPS = [
             ...
             'rest_framework',
-            'myapp',
+            'apirestframework',
         ]
     => Konfigurasi Koneksi SQL Server
         Konfigurasi database di projectAPI/settings.py:

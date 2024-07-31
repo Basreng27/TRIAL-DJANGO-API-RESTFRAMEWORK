@@ -19,4 +19,5 @@ urlpatterns = [
     path('genre_update/<int:pk>', GenreUpdate.as_view(), name='genre_update'),
     path('genre_delete/<int:pk>', GenreDelete.as_view(), name='genre_delete'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/logout/', Logout.as_view(), name='logout'),
 ]

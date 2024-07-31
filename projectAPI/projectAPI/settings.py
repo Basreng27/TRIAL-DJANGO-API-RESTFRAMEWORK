@@ -21,11 +21,17 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),  # Token expires in 1 hour
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),  # Refresh token expires in 5 days
+    'ROTATE_REFRESH_TOKENS': False,  # Set to True if you want to rotate refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,  # Set to True if you want to blacklist old refresh tokens
+    'UPDATE_LAST_LOGIN': False,
+    'ALGORITHM': 'HS256',  # Algorithm used to sign tokens
+    'SIGNING_KEY': 'your-secret-key',  # Secret key for encoding the tokens
+    'VERIFYING_KEY': None,
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
