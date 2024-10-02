@@ -36,7 +36,7 @@ class Logout(APIView):
     def post(self, request):
         try:
             # Ambil token refresh dari header Authorization
-            token = request.data.get('refresh')
+            token = request.data.get('access')
             if token is None:
                 return Response({'detail': 'Refresh token not provided.'}, status=status.HTTP_400_BAD_REQUEST)
             
